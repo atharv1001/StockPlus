@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .tradingview-widget-container {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+  <div class="tradingview-widget-container__widget"></div>
+  <div class="tradingview-widget-copyright">
+    <a href="https://in.tradingview.com/" rel="noopener nofollow" target="_blank">
+      <span class="blue-text">Track all markets on TradingView</span>
+    </a>
+  </div>
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async onload="initTradingViewWidget()">
+  {
+    "symbol": "NASDAQ:AAPL",
+    "width": 350,
+    "isTransparent": false,
+    "colorTheme": "light",
+    "locale": "in"
+  }
+  </script>
+</div>
+<!-- TradingView Widget END -->
+
+<div>
+  <label for="stockName">Enter Stock Symbol:</label>
+  <input type="text" id="stockNameInput" placeholder="Enter stock symbol">
+  <button onclick="updateTradingViewSymbol()">Search</button>
+</div>
+
+<script>
+  // Function to dynamically update the TradingView widget symbol
+  function updateTradingViewSymbol() {
+    const stockNameInput = document.getElementById('stockNameInput');
+    const tradingViewWidget = new TradingView.widget({
+      "symbol": `NASDAQ:${stockNameInput.value.toUpperCase()}`,
+      "width": 350,
+      "isTransparent": false,
+      "colorTheme": "light",
+      "locale": "in"
+    });
+
+    // Remove the existing TradingView widget
+    const tradingViewContainer = document.querySelector('.tradingview-widget-container__widget');
+    tradingViewContainer.innerHTML = '';
+
+    // Append the updated TradingView widget
+    tradingViewContainer.appendChild(tradingViewWidget);
+  }
+
+  // Function to initialize the TradingView widget
+  function initTradingViewWidget() {
+    console.log('TradingView widget loaded.');
+  }
+</script>
+
+</body>
+</html>

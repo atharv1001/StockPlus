@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Certificate Page</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #083fdc;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .textbox {
+            padding: 10px;
+            margin-bottom: 20px;
+            width: 300px;
+            font-size: 16px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            background-color: #083fdc;
+            color: #fff;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .button {
+            padding: 15px 30px;
+            background-color: #fff;
+            color: #083fdc;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #2a4d85;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="text" id="certificateName" class="textbox" placeholder="Enter Certificate Name">
+        <br>
+        <button onclick="downloadCertificate()" class="button">Download Certificate</button>
+    </div>
+
+    <script>
+        function downloadCertificate() {
+            const certificateName = document.getElementById('certificateName').value;
+    
+            if (certificateName.trim() !== '') {
+                const pdf = new window.jspdf.jsPDF();
+    
+                // Add image (replace 'path/to/your/image.jpg' with the actual path)
+                const imageUrl = 'https://marketplace.canva.com/EAFGv9WhSmc/1/0/1600w/canva-blue-and-yellow-minimalist-employee-of-the-month-certificate-jaIc19nYjY4.jpg';
+    
+                // Load the image into the PDF
+                pdf.addImage(imageUrl, 'JPEG', 20, 20, 100, 100); // Adjust the coordinates and size as needed
+    
+                // Add text directly on the image
+                pdf.setTextColor(255, 255, 255); // Set text color to white
+                pdf.text(40, 60, `Certificate: ${certificateName}`); // Adjust the coordinates as needed
+    
+                pdf.save(`${certificateName}_Certificate.pdf`);
+            } else {
+                alert('Please enter a certificate name.');
+            }
+        }
+    </script>
+    
+    
+</body>
+</html>

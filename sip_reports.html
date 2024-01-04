@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show SIP Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: white; /* Set default text color to white */
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .textbox {
+            padding: 10px;
+            margin-bottom: 20px;
+            width: 200px;
+            font-size: 16px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            box-sizing: border-box;
+            outline: none;
+            color: black; /* Set text color to black for better visibility */
+        }
+
+        .button {
+            padding: 15px 30px;
+            background-color: #083fdc;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0d37ac;
+        }
+
+        #sipResult {
+            margin-top: 20px;
+            color: black; /* Set text color to black for better visibility */
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            color: white; /* Set text color to white */
+        }
+
+        th {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 style="color:white">Show SIP Report</h2>
+        <input type="text" id="rowNumber" class="textbox" placeholder="Enter Row Number">
+        <br>
+        <button onclick="showSIPReport()" class="button">Show SIP Report</button>
+        <button onclick="showAllSIPReports()" class="button">Show All SIP Reports</button>
+        <div id="sipResult"></div>
+    </div>
+
+    <script>
+        function showSIPReport() {
+            const rowNumber = document.getElementById('rowNumber').value;
+
+            if (rowNumber.trim() !== '') {
+                // Send an AJAX request to report_sip.php
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        // Display the result in the 'sipResult' div
+                        document.getElementById('sipResult').innerHTML = xhr.responseText;
+                    }
+                };
+
+                xhr.open('GET', `Php_Connection/report_sip.php?rowNumber=${rowNumber}`, true);
+                xhr.send();
+            } else {
+                alert('Please enter a row number.');
+            }
+        }
+
+        function showAllSIPReports() {
+            // Send an AJAX request to report_sip.php without specifying a row number
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Display the result in the 'sipResult' div
+                    document.getElementById('sipResult').innerHTML = xhr.responseText;
+                }
+            };
+
+            xhr.open('GET', 'Php_Connection/report_sip.php', true);
+            xhr.send();
+        }
+    </script>
+</body>
+</html>

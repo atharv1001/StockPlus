@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Reports</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .textbox {
+            padding: 10px;
+            margin-bottom: 20px;
+            width: 200px;
+            font-size: 16px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            box-sizing: border-box;
+            outline: none;
+            color: black;
+        }
+
+        .button {
+            padding: 15px 30px;
+            background-color: #083fdc;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0d37ac;
+        }
+
+        #portfolioResult {
+            margin-top: 20px;
+            color: white;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px auto;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 style="color:white">Portfolio Reports</h2>
+        <input type="text" id="stockName" class="textbox" placeholder="Enter Stock Name">
+        <br>
+        <input type="text" id="datePurchased" class="textbox" placeholder="Enter Date Purchased (YYYYMMDD)">
+        <br>
+        <button onclick="searchPortfolio()" class="button">Search</button>
+        <button onclick="showAllPortfolio()" class="button">Show All Stocks</button>
+        <div id="portfolioResult"></div>
+    </div>
+
+    <script>
+        function searchPortfolio() {
+            const stockName = document.getElementById('stockName').value;
+            const datePurchased = document.getElementById('datePurchased').value;
+
+            if (stockName.trim() !== '' && datePurchased.trim() !== '') {
+                // Send an AJAX request to portfolio_reports.php
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        // Display the result in the 'portfolioResult' div
+                        document.getElementById('portfolioResult').innerHTML = xhr.responseText;
+                    }
+                };
+
+                xhr.open('GET', `Php_Connection/portfolio_reports.php?stockName=${stockName}&datePurchased=${datePurchased}`, true);
+                xhr.send();
+            } else {
+                alert('Please enter stock name and date purchased.');
+            }
+        }
+
+        function showAllPortfolio() {
+            // Send an AJAX request to portfolio_reports.php without specifying stock name and date purchased
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Display the result in the 'portfolioResult' div
+                    document.getElementById('portfolioResult').innerHTML = xhr.responseText;
+                }
+            };
+
+            xhr.open('GET', 'Php_Connection/portfolio_reports.php', true);
+            xhr.send();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade Reports</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .textbox {
+            padding: 10px;
+            margin-bottom: 20px;
+            width: 200px;
+            font-size: 16px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            box-sizing: border-box;
+            outline: none;
+            color: black;
+        }
+
+        .button {
+            padding: 15px 30px;
+            background-color: #083fdc;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0d37ac;
+        }
+
+        #tradeResult {
+            margin-top: 20px;
+            color: white;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 90%; /* Adjust the width as needed */
+            margin: 20px auto;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px; /* Increase the padding for better spacing */
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 style="color:white">Trade Reports</h2>
+        <input type="text" id="tradeId" class="textbox" placeholder="Enter Trade ID">
+        <br>
+        <button onclick="searchTrade()" class="button">Search</button>
+        <button onclick="showAllTrade()" class="button">Show All Trades</button>
+        <div id="tradeResult"></div>
+    </div>
+
+    <script>
+        function searchTrade() {
+            const tradeId = document.getElementById('tradeId').value;
+
+            if (tradeId.trim() !== '') {
+                // Send an AJAX request to trade_reports.php
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        // Display the result in the 'tradeResult' div
+                        document.getElementById('tradeResult').innerHTML = xhr.responseText;
+                    }
+                };
+
+                xhr.open('GET', `Php_Connection/trade_reports.php?tradeId=${tradeId}`, true);
+                xhr.send();
+            } else {
+                alert('Please enter a Trade ID.');
+            }
+        }
+
+        function showAllTrade() {
+            // Send an AJAX request to trade_reports.php without specifying Trade ID
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Display the result in the 'tradeResult' div
+                    document.getElementById('tradeResult').innerHTML = xhr.responseText;
+                }
+            };
+
+            xhr.open('GET', 'Php_Connection/trade_reports.php?showAll=true', true);
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
+

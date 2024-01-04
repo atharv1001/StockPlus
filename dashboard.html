@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            font-weight: bold; /* Make the font bold */
+            font-size: x-large; /* Make the font size larger */
+            background-color: black;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 20px;
+        }
+
+        .box,
+        .info-box {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            height: 120px; /* Increased height */
+            color: #fff;
+            font-size: 18px; /* Increased font size */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin: 10px; /* Added margin */
+        }
+
+        .box::before,
+        .info-box::before,
+        .box::after,
+        .info-box::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translate(-50%, -50%) rotate(45deg);
+            z-index: 1;
+        }
+
+        .box::after,
+        .info-box::after {
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .box:hover::before,
+        .info-box:hover::before,
+        .box:hover::after,
+        .info-box:hover::after {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        #funds {
+            background-color: #3498db; /* Blue */
+            width: 250px; /* Decreased width */
+        }
+
+        #pnl {
+            background-color: #e74c3c; /* Red */
+            width: 250px; /* Decreased width */
+        }
+
+        #brokerage {
+            background-color: #2ecc71; /* Green */
+            width: 250px; /* Decreased width */
+        }
+
+        .additional-info {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px;
+        }
+
+        .info-box {
+            width: 200px;
+            height: 100px; /* Decreased height */
+            padding: 20px;
+            margin: 10px;
+            border: 2px solid #ccc;
+            text-align: center;
+            background-color: #34495e; /* Dark Blue */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #accountOpeningDate {
+            background-color: #e67e22; /* Orange */
+            width: 150px; /* Adjusted width */
+        }
+
+        #name {
+            background-color: #9b59b6; /* Purple */
+            width: 150px; /* Adjusted width */
+        }
+
+        #noOfAffiliates {
+            background-color: #f39c12; /* Yellow */
+            width: 150px; /* Adjusted width */
+        }
+
+        #accountType {
+            background-color: #1abc9c; /* Turquoise */
+            width: 150px; /* Adjusted width */
+        }
+
+        .chart-container {
+            width: 5 00px;
+            height: 400px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header style="font-family: Averta CY W10; font-size: x-large; font-weight: 400;">
+        Dashbord
+    </header>
+    <div class="container">
+        <div class="box" id="funds">Loading...</div>
+        <div class="box" id="pnl">Loading...</div>
+        
+        <div class="box" id="brokerage">Loading...</div>
+        
+        <div class="info-box" id="name">Loading...</div>
+        
+        <div class="info-box" id="noOfAffiliates">Loading...</div>
+        
+         <div class="chart-container">
+            <canvas id="lineChart"></canvas>
+        </div><div class="info-box" id="accountType">Loading...</div>
+        <div class="info-box" id="accountOpeningDate">Loading...</div>
+       
+    </div>
+
+    <div class="additional-info">
+       
+        
+    </div>
+
+    
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        $(document).ready(function() {
+            fetchData();
+        });
+
+        function fetchData() {
+            // Simulate data for the chart
+            var dummyChartData = {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                data: [50, 60, 45, 80, 75, 90]
+            };
+
+            // Simulate data for other elements
+            var dummyData = {
+                funds: 50000,
+                pnl: -2000,
+                brokerage: 1500,
+                accountOpeningDate: '2023-01-01',
+                name: 'John Doe',
+                noOfAffiliates: 10,
+                accountType: 'Premium'
+            };
+
+            updateDashboard(dummyData);
+            createLineChart(dummyChartData.labels, dummyChartData.data);
+        }
+
+        function updateDashboard(data) {
+            // Update box contents
+            $('#funds').text('Funds: $' + data.funds);
+            $('#pnl').text('P&L: $' + data.pnl);
+            $('#brokerage').text('Brokerage: $' + data.brokerage);
+
+            // Additional information
+            $('#accountOpeningDate').text('Account Opening Date: ' + data.accountOpeningDate);
+            $('#name').text('Name: ' + data.name);
+            $('#noOfAffiliates').text('No. of Affiliates: ' + data.noOfAffiliates);
+            $('#accountType').text('Account Type: ' + data.accountType);
+        }
+
+        function createLineChart(labels, data) {
+            var ctx = document.getElementById('lineChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Performance',
+                        data: data,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

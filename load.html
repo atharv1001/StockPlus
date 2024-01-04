@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progress Page</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #083fdc;
+      color: white;
+      font-family: a;
+      font-weight: 500;
+      font-size: 5vw;
+      
+    }
+
+    @font-face {
+        font-family: a;
+        src: url(./KFOlCnqEu92Fr1MmEU9fBBc4\ \(1\).ttf);
+    }
+
+    #progress-container {
+      text-align: center;
+      display: flex;
+      width: 100%;
+      justify-content:space-around;
+      
+    }
+    #progress-container>p
+  </style>
+</head>
+<body>
+  <div id="progress-container">
+    <p>Stock Plus+</p>
+    <p>Progress: <span id="progress">0%</span></p>
+    
+  </div>
+
+  <script>
+    // Initialize progress
+    let currentProgress = 0;
+    let intervalId;
+
+    // Update the progress display
+    function updateProgress() {
+      document.getElementById('progress').textContent = currentProgress + '%';
+    }
+
+    // Handle click events
+    document.body.addEventListener('click', function() {
+      // Reset progress if already at 100%
+      if (currentProgress === 100) {
+        currentProgress = 0;
+        updateProgress();
+      }
+
+      // Start increasing progress gradually
+      intervalId = setInterval(function() {
+        currentProgress += 1;
+        updateProgress();
+
+        // Check if progress is 100% and redirect
+        if (currentProgress === 100) {
+          clearInterval(intervalId); // Stop the interval
+          window.location.href = 'Home.html';
+          window.close();
+        }
+      }, 45); // Adjust the interval duration as needed
+    });
+  </script>
+</body>
+</html>

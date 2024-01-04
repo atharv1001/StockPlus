@@ -1,0 +1,408 @@
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Stock Trading System</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                text-align: center;
+            }
+
+            button {
+                padding: 10px;
+                margin: 10px;
+                font-size: 16px;
+            }
+
+            #transactionHistory {
+                margin-top: 20px;
+                text-align: left;
+                color: white;
+                font-size: larger;
+                font-weight: 400;
+                margin: 25px 0px;
+            }
+
+            /* Styles for the modal */
+            #addFundsModal {
+                display: none;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: #fff;
+                padding: 20px;
+                border: 1px solid #ccc;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+            }
+
+            /* Styles for positive and negative pnl */
+            #pnl {
+                font-weight: bold;
+            }
+
+            .positive {
+                color: green;
+            }
+
+            .negative {
+                color: red;
+            }
+           html{
+            background-color: black;
+           }
+            .nav-bar{
+                height: 50px;
+                width: 100vw;
+                background-color: black;
+            }
+            *{
+                padding: 0;
+                margin: 0;
+                font-family: Averta CY W10;
+                
+            }
+           
+            #nav-left{
+                width: 200px;
+                float: left;
+                height: 50px;
+                background-color: black;
+                
+                font-weight: 400;
+            }
+            #nav-right{
+                font-family: Averta CY W10;
+                font-weight: 700;
+                color: white;
+                width: 900px;
+                height: 50px;
+                float: right;
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+                background-color: black;
+
+            }
+            #nav-left img{
+                width: 66px;
+            }
+            #addfunds{
+                border-radius: 3px;
+                border: none;
+                background-color: green;
+                color: white;
+            
+            }
+            #hero{
+                height: 659px;
+                width: 100vw;
+                display: flex;
+                justify-content:space-between;
+                /* background-color: green; */
+            }
+             #left , #middle, #right{
+                background-color: black;
+                 height: 659px; 
+                 
+                 width: 512px;
+                }
+                #amount , #quantity{
+                    height: 65px;
+                    border-radius: 10px;
+                    /* color: white; */
+                    margin-top: 130px;
+                    font-size: medium;
+                    /* color: white; */
+                    /* background-color: black; */
+                    justify-content: center;
+                }
+
+               label{
+                color: white;
+                
+               }
+               #orderType{
+                height: 22px;
+                width: 90px;
+                font-size: medium;
+                /* color: white;     */
+                margin-top: 30px;
+                margin-bottom: 30px;
+               }
+               .buy1{
+                height: 70px;
+                border: none;
+                border-radius: 5px;
+                width: 100px;
+                font-size: large;
+                margin: 0px 40px;
+               }
+               #addFundsModal{
+                border-radius: 5px;
+                box-shadow:  pink 0px 0px 122px -49px ;
+
+
+               }
+               #addFundsAmount{
+                color: black;
+               }
+        </style>
+    </head>
+
+    <body>
+       
+
+        <div class="nav-bar">
+            <div id="nav-left">
+                <img src="logo.png" alt="">
+            </div>
+            <div id="nav-right">
+                <p>Account Balance: $<span id="balance">100</span></p>
+                <p>Profit/Loss: $<span id="pnl" class="positive">0</span></p>
+                <button onclick="openAddFundsModal()" id="addfunds">Add Funds</button>
+            </div>
+        </div>
+
+        <div id="hero">
+            <div id="left" >
+                <h1 style="color: white;">Your Order list</h1>
+                <div id="transactionHistory">
+                    
+                </div>
+            </div>
+            <div id="middle">
+                
+                
+                <!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+  
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+    {
+    "width": "512",
+    "height": "659",
+    "symbol": "BITSTAMP:BTCUSD",
+    "interval": "3",
+    "timezone": "Etc/UTC",
+    "theme": "dark",
+    "style": "1",
+    "locale": "in",
+    "enable_publishing": false,
+    "allow_symbol_change": true,
+    "support_host": "https://www.tradingview.com"
+  }
+    </script>
+  </div>
+  <!-- TradingView Widget END -->
+            </div>
+            <div id="right">
+                <label for="amount">Amount:</label>
+        <input type="text" id="amount" placeholder="Enter amount">
+
+        <label for="quantity">Quantity:</label>
+        <input type="text" id="quantity" placeholder="Enter quantity">
+<br> <br>
+        <label for="orderType">Order Type:</label>
+        <select id="orderType">
+            <option value="market">Market</option>
+            <option value="limit">Limit</option>
+        </select>
+<br><br>
+        <button onclick="buyStock()" class="buy1">Buy</button>
+        <button onclick="sellStock()" class="buy1">Sell</button>
+            </div>
+        </div>
+    
+
+       
+
+        
+       
+
+   
+
+       
+
+        <!-- Add Funds Modal -->
+        <div id="addFundsModal">
+            <h2>Add Funds</h2>
+            <label for="addFundsAmount">Enter Amount:</label>
+            <input type="number" id="addFundsAmount" placeholder="Enter amount" style="height: 30px; border-radius: 5px; color: black;">
+
+            <label for="addFundsEmail">Enter Email:</label>
+            <input type="email" id="addFundsEmail" placeholder="Enter email" style="height: 30px; border-radius: 5px; color: black;">
+
+            <button onclick="addFunds()" style="border-radius: 5px; border: none; width: 90px;">Add</button>
+            <button onclick="closeAddFundsModal()" style="border-radius: 5px; border: none; width: 90px;">Close</button>
+        </div>
+
+        <script>
+            // Load account balance from localStorage or use a default value of 100
+            let accountBalance = parseFloat(localStorage.getItem('accountBalance')) || 100;
+            let pnl = 0;
+            let isHoldingStock = false;
+            let intervalId = null;
+
+            updateDisplay();
+
+            function buyStock() {
+                let amount = parseFloat(document.getElementById('amount').value);
+                let quantity = parseFloat(document.getElementById('quantity').value);
+                let orderType = document.getElementById('orderType').value;
+                let totalCost;
+
+                if (isNaN(amount) || isNaN(quantity) || amount <= 0 || quantity <= 0) {
+                    alert('Invalid input. Please enter a valid amount and quantity.');
+                    return;
+                }
+
+                if (orderType === 'market') {
+                    totalCost = amount * quantity;
+                } else if (orderType === 'limit') {
+                    // Implement limit order logic here if needed
+                    alert('Limit orders are not implemented in this example.');
+                    return;
+                }
+
+                if (totalCost > accountBalance) {
+                    alert('Insufficient funds. Cannot complete the purchase.');
+                    return;
+                }
+
+                // Update pnl here to reflect the initial purchase
+                pnl = -totalCost;
+
+                accountBalance -= totalCost;
+                isHoldingStock = true;
+                updateDisplay();
+
+                // Start the initial market fluctuations
+                updatePnL();
+
+                // Start interval for continuous market fluctuations
+                intervalId = setInterval(updatePnL, 1000);
+
+                // Save account balance to localStorage
+                saveAccountBalance();
+            }
+
+            function sellStock() {
+            if (!isHoldingStock) {
+                alert('Cannot sell without buying first.');
+                return;
+            }
+
+            let amount = parseFloat(document.getElementById('amount').value);
+            let quantity = parseFloat(document.getElementById('quantity').value);
+            let orderType = document.getElementById('orderType').value;
+            let totalRevenue = amount * quantity;
+
+            // Make an AJAX request to trade.php
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "Php_Connection/trade.php", true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    console.log(xhr.responseText);
+                }
+            };
+            xhr.send(`amount=${amount}&quantity=${quantity}&pnl=${pnl}&funds=${accountBalance}&orderType=${orderType}`);
+
+            // Display transaction details with pnl
+            displayTransactionDetails(totalRevenue - pnl);
+
+            // Add pnl to the account balance
+            accountBalance += pnl;
+
+            accountBalance += totalRevenue;
+            isHoldingStock = false;
+
+            // Stop market fluctuations simulation
+            clearInterval(intervalId);
+
+            // Reset profit/loss
+            pnl = 0;
+
+            updateDisplay();
+
+            // Save account balance to localStorage
+            saveAccountBalance();
+        }
+
+
+            function addFunds() {
+                let addFundsAmount = parseFloat(document.getElementById('addFundsAmount').value);
+                let addFundsEmail = document.getElementById('addFundsEmail').value;
+
+                if (isNaN(addFundsAmount) || addFundsAmount <= 0 || !addFundsEmail) {
+                    alert('Invalid input. Please enter a valid amount and email.');
+                    return;
+                } else {
+                    alert("Funds add Successful!");
+                }
+
+                // You may want to validate the email format here
+
+                // Add funds to the account balance
+                accountBalance += addFundsAmount;
+
+                updateDisplay();
+
+                // Save account balance to localStorage
+                saveAccountBalance();
+
+                // Close the modal
+                closeAddFundsModal();
+            }
+
+            function openAddFundsModal() {
+                document.getElementById('addFundsModal').style.display = 'block';
+            }
+
+            function closeAddFundsModal() {
+                document.getElementById('addFundsModal').style.display = 'none';
+            }
+
+            function updatePnL() {
+                // Simulate market fluctuations (replace with actual logic)
+                let randomFluctuation = (Math.random() - 0.5) * 100;
+                pnl += randomFluctuation;
+                updateDisplay();
+
+                // Save account balance to localStorage on each update
+                saveAccountBalance();
+            }
+
+            function updateDisplay() {
+                let pnlElement = document.getElementById('pnl');
+                pnlElement.innerText = pnl.toFixed(2);
+
+                // Update class for styling based on the sign of pnl
+                pnlElement.className = pnl >= 0 ? 'positive' : 'negative';
+
+                document.getElementById('balance').innerText = accountBalance.toFixed(2);
+            }
+
+            function displayTransactionDetails(amount) {
+                let transactionHistory = document.getElementById('transactionHistory');
+                let transactionDetails = document.createElement('div');
+                transactionDetails.innerText = `Sold: $${accountBalance.toFixed(2)} (P/L: $${pnl.toFixed(2)})
+                --------------------------------------------`;
+                transactionHistory.appendChild(transactionDetails);
+            }
+
+            function saveAccountBalance() {
+                // Save account balance to localStorage
+                localStorage.setItem('accountBalance', accountBalance);
+            }
+        </script>
+
+    </body>
+
+    </html>

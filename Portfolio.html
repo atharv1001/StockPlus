@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Portfolio</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      width: 100vw;
+      height: 100vh;
+      font-family: a;
+      background-color: black;
+      color: #fff;
+      overflow-x: hidden; /* Hide horizontal scrollbar */
+  overflow-y: auto;   /* Allow vertical scrollbar */
+    }
+ 
+   
+/* .hero{
+  width: 21vw;
+  height: 300px;
+  float: right;
+  margin-top: 35px;
+
+  background-color: red;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  
+
+} */
+#stockChart{
+  /* background-color: gold; */
+  width: 550px;
+  height: 535px;
+  margin-top: 10px;
+
+}
+.hero-small{
+  width: 20vw;
+  flex-wrap: wrap;
+  float: right;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  height: 400px;
+  /* background-color: pink; */
+}
+.hero input{
+margin: 2px 0px; 
+}
+.hero label{
+  margin: -2px 0px;
+}
+
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    @font-face {
+      font-family: a;
+      src: url(KFOlCnqEu92Fr1MmEU9fBBc4\ \(1\).ttf);
+    }
+    h2, h3 {
+      color: #00ffcc;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 20px;
+    }
+    .buy-btn {
+      background-color: rgb(0, 128, 0);
+      color: #fff;
+      font-size: 15px;
+      padding: 10px 45px;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .sell-btn{
+      background-color: red;
+      color: #fff;
+      font-size: 15px;
+      padding-top: 10px;
+      padding: 10px 45px;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+    }
+    #pnl {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    #stockNameInput{
+      text-transform: uppercase;
+    }
+    .hero2{
+      width: 50%;
+      float: right;
+      height: 83px;
+      background-color: blue;
+      justify-content: center;
+      display: flex;
+      
+      align-items: center;
+      
+    }
+    .hero #termInput label{
+      margin-top: -10px;
+    }
+    .hero2 button{
+      margin: 0px 10px;
+    }
+    .hero input{
+      height: 20px;
+      border: none;
+      border-radius: 15px;
+    }
+    .hero input:hover{
+      box-shadow: 0px 0px 3px 0.5px white;
+     
+    }
+
+    /* .heading{
+      width: 100vw;
+      height: 50px;
+      display: flex;
+      background-color: red;
+    } */
+    .pie-chart{
+      height: 535px;
+      width: 100vw;
+      display: flex;
+     
+      
+      align-items: center;
+      
+    }
+    #termInput{
+      height: 20px;
+      font-size: medium;
+
+      border: none;
+      border-radius: 3px;
+    }
+    .stat{
+      width: 100vw;
+      height: 100vh;
+      /* background-color: blue; */
+    }
+    
+  </style>
+</head>
+<body>
+<!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+  <div class="tradingview-widget-container__widget"></div>
+  
+  </div>
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async></script>
+  <script type="text/javascript">
+    new TradingView.widget({
+      "symbols": [
+        {
+          "proName": "FOREXCOM:SPXUSD",
+          "title": "S&P 500"
+        },
+        {
+          "proName": "FOREXCOM:NSXUSD",
+          "title": "US 100"
+        },
+        {
+          "proName": "FX_IDC:EURUSD",
+          "title": "EUR to USD"
+        },
+        {
+          "proName": "BITSTAMP:BTCUSD",
+          "title": "Bitcoin"
+        },
+        {
+          "proName": "BITSTAMP:ETHUSD",
+          "title": "Ethereum"
+        }
+      ],
+      "showSymbolLogo": true,
+      "isTransparent": false,
+      "displayMode": "regular",
+      "colorTheme": "dark",
+      "locale": "in"
+    });
+  </script>
+</div>
+
+      
+<!-- TradingView Widget END -->
+  
+<!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+  <div class="tradingview-widget-container__widget"></div>
+ 
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-tickers.js" async>
+  {
+  "symbols": [
+    {
+      "proName": "FOREXCOM:SPXUSD",
+      "title": "S&P 500"
+    },
+    {
+      "proName": "FOREXCOM:NSXUSD",
+      "title": "US 100"
+    },
+    {
+      "proName": "FX_IDC:EURUSD",
+      "title": "EUR to USD"
+    },
+    {
+      "proName": "BITSTAMP:BTCUSD",
+      "title": "Bitcoin"
+    },
+    {
+      "proName": "BITSTAMP:ETHUSD",
+      "title": "Ethereum"
+    }
+  ],
+  "isTransparent": false,
+  "showSymbolLogo": true,
+  "colorTheme": "dark",
+  "locale": "in"
+}
+  </script>
+</div>
+<!-- TradingView Widget END -->
+
+
+
+
+<div class="pie-chart">
+<!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+  <div class="tradingview-widget-container__widget"></div>
+ 
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+  {
+  "width": "600",
+  "height": "530",
+  "symbol": "NASDAQ:AAPL",
+  "interval": "D",
+  "timezone": "Etc/UTC",
+  "theme": "dark",
+  "style": "1",
+  "locale": "in",
+  "enable_publishing": false,
+  "allow_symbol_change": true,
+  "support_host": "https://www.tradingview.com"
+}
+  </script>
+</div>
+<!-- TradingView Widget END -->
+<!-- TradingView Widget END -->
+<!-- TradingView Widget END -->
+
+
+<div >
+  <canvas id="stockChart" ></canvas>
+</div>
+ 
+<div class="hero">
+    
+  <div class="hero-small">
+  <label for="stockName">Stock Symbol </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <input type="text" id="stockNameInput" placeholder="Enter stock Symbol">
+  <br>
+  <label for="stockPrice">Stock Price:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <input type="number" id="stockPriceInput" placeholder="ENTER STOCK PRICE">
+  <br>
+  <label for="quantity">Quantity:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <input type="number" id="quantityInput" placeholder="ENTER QTY">
+  <br>
+  <label for="term">Select Term:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <select id="termInput">
+    <option value="long-term">Long-term</option>
+    <option value="short-term">Short-term</option>
+  </select>
+  <button class="buy-btn" onclick="executeAction('buy')">Buy</button>
+  <button class="sell-btn" onclick="executeAction('sell')">Sell</button>
+</div>
+</div>
+
+
+
+</div>
+
+
+
+</div>
+    
+
+  <div class="stat">
+
+
+  
+    
+
+
+
+
+<h3>Stock List</h3>
+<ul id="stockList"></ul>
+
+<div id="pnl">Profit/Loss: $<span id="pnlValue">0.00</span></div>
+</div>
+<script>
+const serverUrl = 'portfolio.php';
+
+
+
+  let chartData = {
+    labels: [],
+    datasets: [{
+      data: [],
+      backgroundColor: []
+    }]
+  };
+
+  const pnlValueElement = document.getElementById('pnlValue');
+  let pnlTotal = 0;
+
+  const ctx = document.getElementById('stockChart').getContext('2d');
+  const stockChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: chartData,
+    options: {
+      maintainAspectRatio: false,
+      legend: {
+        display: true,
+        position: 'right',
+        labels: {
+          fontColor: '#fff'
+        }
+      },
+    }
+  });
+
+  function executeAction(action) {
+    const stockNameInput = document.getElementById('stockNameInput');
+    const stockPriceInput = document.getElementById('stockPriceInput');
+    const quantityInput = document.getElementById('quantityInput');
+    const termInput = document.getElementById('termInput');
+
+    const stockName = stockNameInput.value;
+    const stockPrice = parseFloat(stockPriceInput.value) || 0;
+    const quantity = parseInt(quantityInput.value) || 0;
+    const term = termInput.value;
+    const currentDate = new Date().toLocaleDateString();
+
+    if (!stockName || isNaN(stockPrice) || isNaN(quantity) || term === '') {
+      alert('Please enter valid stock information.');
+      return;
+    }
+
+    if (action === 'buy') {
+      buyStock(stockName, quantity, term, currentDate, stockPrice);
+    } else if (action === 'sell') {
+      sellStock(stockName, quantity, term, currentDate, stockPrice);
+    }
+  }
+
+  // Function to update the chart
+function updateChart(data) {
+    // Parse the data and update the chart
+    const parsedData = JSON.parse(data);
+    const chartData = {
+        labels: Object.keys(parsedData),
+        datasets: [{
+            data: Object.values(parsedData),
+            backgroundColor: getRandomColors(Object.keys(parsedData).length),
+        }],
+    };
+
+    // Update the chart
+    stockChart.data = chartData;
+    stockChart.update();
+}
+
+// Function to get random colors
+function getRandomColors(count) {
+    const colors = [];
+    for (let i = 0; i < count; i++) {
+        const r = Math.floor(Math.random() * 256);
+        const g = Math.floor(Math.random() * 256);
+        const b = Math.floor(Math.random() * 256);
+        colors.push(`rgb(${r}, ${g}, ${b})`);
+    }
+    return colors;
+}
+
+
+  function buyStock(stockName, quantity, term, currentDate, stockPrice) {
+   const existingIndex = chartData.labels.findIndex(label => label.startsWith(stockName) && label.includes(term));
+
+   if (existingIndex !== -1) {
+     chartData.datasets[0].data[existingIndex] += quantity;
+   } else {
+     chartData.labels.push(stockName + ' (' + term + ')');
+     chartData.datasets[0].data.push(quantity);
+     chartData.datasets[0].backgroundColor.push(getRandomColor());
+   }
+
+   stockChart.update();
+   updateStockList(stockName, quantity, currentDate, term, stockPrice, 'Buy');
+   
+
+   // AJAX request to the server-side PHP script
+   fetch(serverUrl, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  },
+  body: `action=buy&stockName=${stockName}&quantity=${quantity}&term=${term}&currentDate=${currentDate}&stockPrice=${stockPrice}`,
+})
+.then(response => response.text())
+.then(data => console.log(data))  // Add this line
+.catch(error => console.error('Error:', error));
+
+
+
+   clearInputFields();
+}
+
+
+  function sellStock(stockName, quantity, term, currentDate, stockPrice) {
+    const existingIndex = chartData.labels.findIndex(label => label.startsWith(stockName) && label.includes(term));
+
+    if (existingIndex !== -1) {
+      if (chartData.datasets[0].data[existingIndex] >= quantity) {
+        chartData.datasets[0].data[existingIndex] -= quantity;
+        const pnl = calculatePnl(stockName, quantity, term, stockPrice);
+        pnlTotal += pnl;
+        pnlValueElement.textContent = pnlTotal.toFixed(2);
+        alert(`Sold ${quantity} shares of ${stockName} (${term}). Profit/Loss: $${pnl.toFixed(2)}`);
+        updateStockList(stockName, quantity, currentDate, term, stockPrice, 'Sell', pnl);
+      } else {
+        alert(`Cannot sell ${quantity} shares of ${stockName} (${term}) as it is not in the portfolio.`);
+      }
+    } else {
+      alert(`Cannot sell ${quantity} shares of ${stockName} (${term}) as it is not in the portfolio.`);
+    }
+
+    stockChart.update();
+    clearInputFields();
+
+// ... other code ...
+fetch('portfolio.php', {
+   method: 'POST',
+   headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+   },
+   body: `action=buy&stockName=${stockName}&quantity=${quantity}&term=${term}&currentDate=${currentDate}&stockPrice=${stockPrice}`,
+})
+.then(response => response.text())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
+
+clearInputFields();
+
+  }
+
+  function calculatePnl(stockName, quantity, term, sellPrice) {
+  const buyPrice = getBuyPrice(stockName, term);
+  return (sellPrice - buyPrice) * quantity;
+}
+
+
+
+  function getBuyPrice(stockName, term) {
+  const buyTransactions = chartData.labels
+    .filter(label => label.startsWith(stockName) && label.includes(term + ' (Buy)'))
+    .map(label => {
+      const startIndex = label.lastIndexOf('$') + 1;
+      const endIndex = label.lastIndexOf(')');
+      return parseFloat(label.substring(startIndex, endIndex));
+    });
+
+  return buyTransactions.length > 0 ? buyTransactions[buyTransactions.length - 1] : 0;
+}
+
+
+  function updateStockList(stockName, quantity, currentDate, term, stockPrice, action, pnl) {
+    const stockList = document.getElementById('stockList');
+    const listItem = document.createElement('li');
+    const pnlSign = pnl >= 0 ? '+' : '-';
+    listItem.innerHTML = `
+      <strong>${stockName}</strong> (Term: ${term})<br>
+      Quantity: ${quantity}, Date: ${currentDate}, Price: $${stockPrice.toFixed(2)}<br>
+      Action: ${action}, P/L: $${pnlSign}${Math.abs(pnl).toFixed(2)}
+    `;
+    stockList.appendChild(listItem);
+  }
+
+  function clearInputFields() {
+    document.getElementById('stockNameInput').value = '';
+    document.getElementById('stockPriceInput').value = '';
+    document.getElementById('quantityInput').value = '';
+    document.getElementById('termInput').value = '';
+  }
+
+  function getRandomColor() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+</script>
+</body>
+</html>

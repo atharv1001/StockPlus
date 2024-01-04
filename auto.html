@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Portfolio</title>
+
+ 
+
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+
+
+
+
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #222;
+      color: #fff;
+    }
+    h2, h3 {
+      color: #00ffcc;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    .buy-btn, .sell-btn {
+      background-color: #ff6666;
+      color: #fff;
+      padding: 5px 10px;
+      border: none;
+      cursor: pointer;
+    }
+    #pnl {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    #search-container {
+      position: relative;
+      display: inline-block;
+    }
+    #suggestion-list {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      z-index: 1;
+      border: 1px solid #ccc;
+      background-color: #333;
+      color: #fff;
+      display: none;
+    }
+    .suggestion-item {
+      padding: 8px;
+      cursor: pointer;
+      border-bottom: 1px solid #555;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Stock Portfolio</h2>
+
+<div id="search-container">
+  <input type="text" id="stockNameInput" placeholder="Enter stock name">
+  <div id="suggestion-list"></div>
+</div>
+
+<label for="stockPrice">Stock Price:</label>
+<input type="number" id="stockPriceInput" placeholder="Enter stock price">
+
+<label for="quantity">Quantity:</label>
+<input type="number" id="quantityInput" placeholder="Enter quantity">
+
+<label for="term">Select Term:</label>
+<select id="termInput">
+  <option value="long-term">Long-term</option>
+  <option value="short-term">Short-term</option>
+</select>
+
+<button class="buy-btn" onclick="executeAction('buy')">Buy</button>
+<button class="sell-btn" onclick="executeAction('sell')">Sell</button>
+
+<div style="width: 50%;">
+  <canvas id="stockChart"></canvas>
+</div>
+
+<h3>Stock List</h3>
+<ul id="stockList"></ul>
+
+<script>
+  let chartData = {
+    labels: [],
+    datasets: [{
+      data: [],
+      backgroundColor: []
+    }]
+  };
+
+  const ctx = document.getElementById('stockChart').getContext('2d');
+  const stockChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: chartData,
+    options: {
+      maintainAspectRatio: false,
+      legend: {
+        display: true,
+        position: 'right',
+        labels: {
+          fontColor: '#fff'
+        }
+      },
+    }
+  });
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  function executeAction(action) {
+    const stockNameInput = document.getElementById('stockNameInput');
+    const stockPriceInput = document.getElementById('stockPriceInput');
+    const quantityInput = document.getElementById('quantityInput');
+    const termInput = document.getElementById('termInput');
+
+    const stockName = stockNameInput.value;
+    const stockPrice = parseFloat(stockPriceInput.value) || 0;
+    const quantity = parseInt(quantityInput.value) || 0;
+    const term = termInput.value;
+    const currentDate = new Date().toLocaleDateString();
+
+    if (!stockName || isNaN(stockPrice) || isNaN(quantity) || term === '') {
+      alert('Please enter valid stock information.');
+      return;
+    }
+
+    if (action === 'buy') {
+      buyStock(stockName, quantity, term, currentDate);
+    } else if (action === 'sell') {
+      sellStock(stockName, quantity, term, currentDate);
+    }
+  }
+
+  function buyStock(stockName, quantity, term, currentDate) {
+    const existingIndex = chartData.labels.findIndex(label => label.startsWith(stockName) && label.includes(term));
+
+    if (existingIndex !== -1) {
+      chartData.datasets[0].data[existingIndex] += quantity;
+    } else {
+      chartData.labels.push(stockName + ' (' + term + ')');
+      chartData.datasets[0].data.push(quantity);
+      chartData.datasets[0].backgroundColor.push(getRandomColor());
+    }
+
+    stockChart.update();
+    updateStockList(stockName, quantity, currentDate, term);
+    clearInputFields();
+  }
+
+  function sellStock(stockName, quantity, term, currentDate) {
+    const existingIndex = chartData.labels.findIndex(label => label.startsWith(stockName) && label.includes(term));
+
+    if (existingIndex !== -1) {
+      chartData.datasets[0].data[existingIndex] -= quantity;
+      alert(`Sold ${quantity} shares of ${stockName} (${term})`);
+    } else {
+      alert(`Cannot sell ${quantity} shares of ${stockName} (${term}) as it is not in the portfolio.`);
+    }
+
+    stockChart.update();
+    updateStockList(stockName, quantity, currentDate, term);
+    clearInputFields();
+  }
+
+  function updateStockList(stockName, quantity, currentDate, term) {
+    const stockList = document.getElementById('stockList');
+    const listItem = document.createElement('li');
+    listItem.innerHTML = `
+      <strong>${stockName}</strong> (Term: ${term})<br>
+      Quantity: ${quantity}, Date: ${currentDate}
+    `;
+    stockList.appendChild(listItem);
+  }
+
+  function clearInputFields() {
+    document.getElementById('stockNameInput').value = '';
+    document.getElementById('stockPriceInput').value = '';
+    document.getElementById('quantityInput').value = '';
+    document.getElementById('termInput').value = '';
+  }
+
+  function getRandomColor() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+</script>
+</body>
+</html>

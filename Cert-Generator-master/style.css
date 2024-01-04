@@ -1,0 +1,114 @@
+:root {
+  background-color: #083fdc;
+}
+
+
+html{
+  height: 100vh;
+  width: 100VW;
+}
+.center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 25%;
+}
+body {
+  font-family: system-ui;
+  text-align: center;
+  margin-top: 40px;
+  font-size: 1.5em;
+  
+  
+ margin: auto;
+  
+}
+
+h4 {
+  font-weight: normal;
+  margin-bottom: 5px;
+}
+h1 {
+  font-weight: normal;
+  margin-top: 0;
+  margin-bottom: 40px;
+  font-size: 2em;
+}
+
+img {
+  border-radius: 150%;
+  height: 120px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+main * {
+  margin-bottom: 12px;
+}
+
+input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+            margin-bottom: 20px;
+            width: 300px;
+            font-size: 16px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            background-color: #083fdc;
+            color: #fff;
+            box-sizing: border-box;
+            outline: none;
+}
+
+/* for styling the autocomplete style */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: var(--dark-color) !important;
+}
+
+button {
+  padding: 15px 30px;
+  background-color: #fff;
+  color: #083fdc;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+a {
+  color: #6492f6;
+}
+
+/* dark mode css */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: var(--dark-color);
+    color: #fff;
+  }
+  input,
+  input:active {
+    background: var(--dark-color);
+    border-color: #fff;
+    color: #fff;
+  }
+
+  /* for styling the autocomplete style */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: #fff !important;
+  }
+}
